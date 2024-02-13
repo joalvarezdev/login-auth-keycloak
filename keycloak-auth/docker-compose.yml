@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  application-spring:
+    image: postgres:15.2
+    container_name: application-spring
+    ports:
+      - '5433:5432'
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - loginuser:/var/lib/postgresql/data
+
+volumes:
+  loginuser:
+

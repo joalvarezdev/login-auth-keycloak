@@ -1,0 +1,3 @@
+INSERT INTO tests (id)
+SELECT 1
+    WHERE NOT EXISTS (SELECT id FROM tests WHERE id = 1);
