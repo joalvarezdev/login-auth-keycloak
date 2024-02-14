@@ -1,14 +1,5 @@
 package com.joalvarez.keycloakauth.data.dto.generals;
 
-public class HttpDTO extends ResponseDTO {
+import java.util.List;
 
-	private String nested;
-
-	public String getNested() {
-		return nested;
-	}
-
-	public void setNested(String nested) {
-		this.nested = nested;
-	}
-}
+public record HttpDTO (int code, String message, List<String> details, String nested) implements BaseDTO {}
