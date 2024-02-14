@@ -45,13 +45,13 @@ app:
 
 # Keycloak config
 keycloak:
-  server: ${KC_SERVER}
-  realm-name: ${KC_REALM_NAME}
-  realm-master: ${KC_REALM_MASTER}
-  admin-cli: ${KC_ADMIN_CLI}
-  user-console: ${KC_USER_CONSOLE}
-  pass-console: ${KC_PASS_CONSOLE}
-  client-secret: ${KC_CLIENT_SECRET}
+  server: ${KEY_SERVER}
+  realm-name: ${KEY_REALM_NAME}
+  realm-master: ${KEY_REALM_MASTER}
+  admin-cli: ${KEY_ADMIN_CLI}
+  user-console: ${KEY_USER_CONSOLE}
+  pass-console: ${KEY_PASS_CONSOLE}
+  client-secret: ${KEY_CLIENT_SECRET}
 
 api.security:
   origins:
