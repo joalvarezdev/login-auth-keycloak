@@ -32,8 +32,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${HOST_AUTH_SERVER}:8181/realms/${REALM_NAME}
-          jwk-set-uri: ${HOST_AUTH_SERVER}:8181/realms/${REALM_NAME}/protocol/openid-connect/certs
+          issuer-uri: ${KEY_SERVER}:8181/realms/${KEY_REALM_NAME}
+          jwk-set-uri: ${KEY_SERVER}:8181/realms/${KEY_REALM_NAME}/protocol/openid-connect/certs
 
 server:
   port: 8090
@@ -45,14 +45,16 @@ app:
 
 # Keycloak config
 keycloak:
-  server: ${KEY_SERVER}
+  server: ${KEY_SERVER}:${KEYCLOAK_PORT}
   realm-name: ${KEY_REALM_NAME}
   realm-master: ${KEY_REALM_MASTER}
   admin-cli: ${KEY_ADMIN_CLI}
   user-console: ${KEY_USER_CONSOLE}
   pass-console: ${KEY_PASS_CONSOLE}
   client-secret: ${KEY_CLIENT_SECRET}
-  url-login: ${KEY_SERVER}/realms/${KEY_REAL_NAME}/protocol/openid-connect/token
+  client-id: ${KEY_CLIENT_ID}
+  url-login: ${KEY_SERVER}:${KEYCLOAK_PORT}/realms/${KEY_REALM_NAME}/protocol/openid-connect/token
+  port: ${KEYCLOAK_PORT}
 
 
 api.security:

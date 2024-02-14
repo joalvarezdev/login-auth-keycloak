@@ -3,6 +3,7 @@ package com.joalvarez.keycloakauth.config.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,7 +31,11 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> {
 
-				auth.requestMatchers("/keycloak/users/**").hasRole("ADMIN");
+				auth.requestMatchers(HttpMethod.POST, "/keycloak/users/login").permitAll();
+				auth.requestMatchers(HttpMethod.POST, "/keycloak/users").hasRole("ADMIN");
+				auth.requestMatchers(HttpMethod.GET, "/keycloak/users").hasRole("ADMIN");
+				auth.requestMatchers(HttpMethod.PUT, "/keycloak/users").hasRole("ADMIN");
+				auth.requestMatchers(HttpMethod.DELETE, "/keycloak/users/{id}").hasRole("ADMIN");
 
 				this.securityProperties.getEndpoints().forEach(endpoint -> {
 					auth.requestMatchers(endpoint.getPath()).hasAnyRole(endpoint.getAuthorities().toArray(String[]::new));
@@ -39,7 +44,6 @@ public class SecurityConfig {
 				auth.requestMatchers(this.securityProperties.getExcludedPaths()).permitAll();
 
 				auth.anyRequest().authenticated();
-
 			})
 			.oauth2ResourceServer(oauth -> {
 				oauth.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(this.jwtAuthoritiesConverter()));

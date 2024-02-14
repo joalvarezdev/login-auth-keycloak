@@ -2,6 +2,8 @@ package com.joalvarez.keycloakauth.service;
 
 import com.joalvarez.keycloakauth.config.KeycloakSourceProperties;
 import com.joalvarez.keycloakauth.constants.ErrorCode;
+import com.joalvarez.keycloakauth.data.dto.LoginDTO;
+import com.joalvarez.keycloakauth.data.dto.LoginResponseDTO;
 import com.joalvarez.keycloakauth.data.dto.UserRepresentationDTO;
 import com.joalvarez.keycloakauth.data.mapper.KeycloakMapper;
 import com.joalvarez.keycloakauth.exception.generals.GenericException;
@@ -10,10 +12,12 @@ import com.joalvarez.keycloakauth.shared.HasLogger;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.keycloak.OAuth2Constants;
+import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -23,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,6 +75,37 @@ public class KeycloakService implements IKeycloakService<UserRepresentationDTO, 
 		this.getUserResource()
 			.get(id)
 			.remove();
+	}
+
+	@Override
+	public LoginResponseDTO login(LoginDTO dto) {
+		var keycloak = KeycloakBuilder.builder()
+			.serverUrl(this.properties.getServer())
+			.realm(this.properties.getRealmName())
+			.clientId(this.properties.getClientId())
+			.clientSecret(this.properties.getClientSecret())
+			.username(dto.username())
+			.password(dto.password())
+			.resteasyClient(
+				new ResteasyClientBuilderImpl()
+					.connectionPoolSize(10)
+					.build()
+			)
+			.build();
+
+		var accessToken = keycloak.tokenManager().getAccessToken();
+
+		if (Objects.isNull(accessToken)) {
+			accessToken = keycloak.tokenManager().grantToken();
+		}
+
+		return new LoginResponseDTO(
+			accessToken.getToken(),
+			accessToken.getExpiresIn(),
+			accessToken.getRefreshToken(),
+			accessToken.getRefreshExpiresIn(),
+			accessToken.getTokenType()
+		);
 	}
 
 	@Override

@@ -13,7 +13,8 @@ public class SecurityConfigProperties {
 		"/v3/api-docs/**",
 		"/swagger-ui/**",
 		"/swagger-ui.html",
-		"/swagger-resources/**", "/webjars/**"
+		"/swagger-resources/**",
+		"/webjars/**"
 	};
 	private List<EndPointSecurityDTO> endpoints;
 	private List<String> origins;

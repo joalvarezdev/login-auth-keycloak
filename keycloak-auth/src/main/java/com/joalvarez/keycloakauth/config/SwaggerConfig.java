@@ -37,15 +37,6 @@ public class SwaggerConfig {
 			.version(this.version);
 
 		return new OpenAPI()
-			.addSecurityItem(new SecurityRequirement()
-				.addList("bearer"))
-			.components(new Components()
-				.addSecuritySchemes("bearer", new SecurityScheme()
-					.name("bearer")
-					.type(SecurityScheme.Type.HTTP)
-					.scheme("bearer")
-					.bearerFormat("JWT")
-				))
 			.info(info);
 	}
 }
