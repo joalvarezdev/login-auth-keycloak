@@ -17,7 +17,7 @@ public class KeycloakController {
 	public KeycloakController(KeycloakService service) {
 		this.service = service;
 	}
-n-
+
 	@GetMapping
 	public ResponseEntity<List<UserRepresentationDTO>> findAll() {
 		return ResponseEntity.ok(this.service.findAll());
