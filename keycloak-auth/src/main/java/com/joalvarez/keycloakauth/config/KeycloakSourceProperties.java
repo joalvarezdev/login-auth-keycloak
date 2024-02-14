@@ -14,6 +14,7 @@ public class KeycloakSourceProperties {
 	private String userConsole;
 	private String passConsole;
 	private String clientSecret;
+	private String urlLogin;
 
 	public String getServer() {
 		return server;
@@ -69,5 +70,13 @@ public class KeycloakSourceProperties {
 
 	public void setClientSecret(String clientSecret) {
 		this.clientSecret = clientSecret;
+	}
+
+	public String getUrlLogin() {
+		return urlLogin;
+	}
+
+	public void setUrlLogin(String urlLogin) {
+		this.urlLogin = urlLogin;
 	}
 }

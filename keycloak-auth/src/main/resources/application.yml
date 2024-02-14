@@ -52,6 +52,8 @@ keycloak:
   user-console: ${KEY_USER_CONSOLE}
   pass-console: ${KEY_PASS_CONSOLE}
   client-secret: ${KEY_CLIENT_SECRET}
+  url-login: ${KEY_SERVER}/realms/${KEY_REAL_NAME}/protocol/openid-connect/token
+
 
 api.security:
   origins:
