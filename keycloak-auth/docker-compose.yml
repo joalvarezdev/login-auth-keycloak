@@ -1,7 +1,48 @@
 version: '3.9'
 services:
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:21.0.2
+    networks:
+      - microservices_default
+    command: start-dev
+    ports:
+      - ${KEYCLOAK_PORT}:8080
+    depends_on:
+      db-keycloak:
+        condition: service_healthy
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: db-keycloak
+      KC_DB_USERNAME: ${DB_KEYCLOAK_USER}
+      KC_DB_PASSWORD: ${DB_KEYCLOAK_PASS}
+      KC_DB_URL_PORT: ${DB_KEYCLOAK_PORT}
+      KC_DB_URL_DATABASE: ${DB_KEYCLOAK}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASS}
+
+  db-keycloak:
+    container_name: db-keycloak
+    image: postgres:15.2
+    networks:
+      - microservices_default
+    environment:
+      POSTGRES_DB: ${DB_KEYCLOAK}
+      POSTGRES_USER: ${DB_KEYCLOAK_USER}
+      POSTGRES_PASSWORD: ${DB_KEYCLOAK_PASS}
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - ${DB_KEYCLOAK_PORT}:5432
+    command: -p ${DB_KEYCLOAK_PORT}
+    volumes:
+      - keycloak-data:/var/lib/postgresql/data
+
   application-spring:
     image: postgres:15.2
+    networks:
+      - microservices_default
     container_name: application-spring
     ports:
       - '5433:5432'
@@ -13,5 +54,6 @@ services:
       - loginuser:/var/lib/postgresql/data
 
 volumes:
-  loginuser:
+  login-user:
+  keycloak-data:
 
