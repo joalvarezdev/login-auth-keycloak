@@ -5,7 +5,7 @@ services:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:21.0.2
     networks:
-      - microservices_default
+      - keycloak-auth
     command: start-dev
     ports:
       - ${KEYCLOAK_PORT}:8080
@@ -26,7 +26,7 @@ services:
     container_name: db-keycloak
     image: postgres:15.2
     networks:
-      - microservices_default
+      - keycloak-auth
     environment:
       POSTGRES_DB: ${DB_KEYCLOAK}
       POSTGRES_USER: ${DB_KEYCLOAK_USER}
@@ -40,10 +40,10 @@ services:
       - keycloak-data:/var/lib/postgresql/data
 
   application-spring:
+    container_name: application-spring
     image: postgres:15.2
     networks:
-      - microservices_default
-    container_name: application-spring
+      - keycloak-auth
     ports:
       - '5433:5432'
     environment:
@@ -51,7 +51,11 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
     volumes:
-      - loginuser:/var/lib/postgresql/data
+      - login-user:/var/lib/postgresql/data
+
+networks:
+  keycloak-auth:
+    driver: bridge
 
 volumes:
   login-user:
