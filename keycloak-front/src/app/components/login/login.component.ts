@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _userService: UserService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -25,11 +26,11 @@ export class LoginComponent implements OnInit {
   login() {
     this._userService.login(this.username, this.password).subscribe({
       next: (data) => {
-        console.log(data);
-        console.log(data.access_token);
         this.toastr.success('User login correctly!', 'Success', {
           timeOut: 3000,
         });
+        this.router.navigate(['/dashboard']);
+        localStorage.setItem('token', data.access_token);
       },
       error: (wrong) => {
         this.toastr.error(wrong, 'Error', {
