@@ -64,6 +64,6 @@ public class HandlerException implements HasLogger {
 	public ResponseEntity<ResponseDTO> handle(GenericException e) {
 		this.warn(e.getMessage());
 
-		return ResponseEntity.badRequest().body(new ResponseDTO(e.getResponseCode(), e.getMessage(), List.of()));
+		return ResponseEntity.status(e.getCode()).body(new ResponseDTO(e.getResponseCode(), e.getMessage(), List.of()));
 	}
 }

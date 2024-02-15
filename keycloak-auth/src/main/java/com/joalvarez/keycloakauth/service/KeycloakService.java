@@ -9,6 +9,7 @@ import com.joalvarez.keycloakauth.data.mapper.KeycloakMapper;
 import com.joalvarez.keycloakauth.exception.generals.GenericException;
 import com.joalvarez.keycloakauth.service.interfaces.IKeycloakService;
 import com.joalvarez.keycloakauth.shared.HasLogger;
+import jakarta.ws.rs.NotAuthorizedException;
 import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
 import org.keycloak.OAuth2Constants;
@@ -93,7 +94,16 @@ public class KeycloakService implements IKeycloakService<UserRepresentationDTO, 
 			)
 			.build();
 
-		var accessToken = keycloak.tokenManager().getAccessToken();
+		AccessTokenResponse accessToken = null;
+
+		try {
+			accessToken = keycloak.tokenManager().getAccessToken();
+		} catch (NotAuthorizedException e) {
+			throw new GenericException(
+				HttpStatus.UNAUTHORIZED,
+				ErrorCode.USER_NOT_FOUND
+			);
+		}
 
 		if (Objects.isNull(accessToken)) {
 			accessToken = keycloak.tokenManager().grantToken();
@@ -135,7 +145,6 @@ public class KeycloakService implements IKeycloakService<UserRepresentationDTO, 
 		user.roles().realmLevel().add(roles);
 
 		return dto;
-		//return "User {".concat(dto.getUsername()).concat("} created successfully");
 	}
 
 	/**

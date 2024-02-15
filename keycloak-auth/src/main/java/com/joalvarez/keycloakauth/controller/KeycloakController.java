@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/keycloak/users")
+@RequestMapping("users")
 public class KeycloakController {
 
 	private final KeycloakService service;
@@ -46,7 +46,7 @@ public class KeycloakController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/login")
+	@PostMapping("login")
 	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO dto) {
 		return ResponseEntity.ok(this.service.login(dto));
 	}

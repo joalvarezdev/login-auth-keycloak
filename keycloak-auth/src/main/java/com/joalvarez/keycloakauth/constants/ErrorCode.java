@@ -6,6 +6,7 @@ public enum ErrorCode implements IResponse {
 	CLIENT_CONNECTION_ERROR(8001, "The integration's client is unreachable or unavailable for the operation"),
 	CLIENT_BAD_REQUEST_ERROR(8002, "The integration's client indicated an error while performing this operation"),
 	NOT_IMPLEMENTED_ERROR(8003, "The resource you're trying to access or execute isn't implemented yet"),
+	USER_NOT_FOUND(8100, "Username or password is not correct")
 	;
 
 	private final int code;
