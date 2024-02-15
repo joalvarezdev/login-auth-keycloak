@@ -9,16 +9,14 @@ client_id={{client-id}}
 &client_secret={{client-secret}}
 
 ### LOGIN
-POST http://localhost:8090/keycloak/users/login
+POST {{base-url-api}}{{login-endpoint}}
 Content-Type: application/json
 
 {
   "username": "admin",
-  "password": {{password}}
+  "password": "{{password}}"
 }
 
-###
-
 ### FIND ALL USERS
-GET http://localhost:8090/keycloak/users
-Authorization: Bearer {{user-token}}
+GET {{base-url-api}}{{users-endpoint}}
+Authorization: Bearer {{admin-token}}

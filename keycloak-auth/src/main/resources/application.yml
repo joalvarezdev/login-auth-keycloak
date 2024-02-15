@@ -58,11 +58,23 @@ keycloak:
 
 
 api.security:
-  origins:
+  mapping: /**
+  allowed-origins:
+    - "*"
+  allowed-methods:
+    - GET
+    - POST
+    - PATCH
+    - PUT
+    - DELETE
+    - POTIONS
+    - HEAD
+  allowed-head:
     - "*"
   endpoints:
     - path: /test/admin
       authorities: [ADMIN]
     - path: /test/user
       authorities: [ADMIN, USER]
+
 
