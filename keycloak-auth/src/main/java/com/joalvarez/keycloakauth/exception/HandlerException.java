@@ -3,6 +3,7 @@ package com.joalvarez.keycloakauth.exception;
 import com.joalvarez.keycloakauth.constants.ErrorCode;
 import com.joalvarez.keycloakauth.data.dto.generals.HttpDTO;
 import com.joalvarez.keycloakauth.data.dto.generals.ResponseDTO;
+import com.joalvarez.keycloakauth.exception.generals.GenericException;
 import com.joalvarez.keycloakauth.shared.HasLogger;
 import com.joalvarez.keycloakauth.exception.generals.HttpErrorException;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +58,12 @@ public class HandlerException implements HasLogger {
 			String.valueOf(e.getNested()),
 			e);
 		return new ResponseEntity<>(new HttpDTO(e.getResponseCode(), e.getMessage(), List.of(), e.getNested()), e.getCode());
+	}
+
+	@ExceptionHandler(GenericException.class)
+	public ResponseEntity<ResponseDTO> handle(GenericException e) {
+		this.warn(e.getMessage());
+
+		return ResponseEntity.badRequest().body(new ResponseDTO(e.getResponseCode(), e.getMessage(), List.of()));
 	}
 }
