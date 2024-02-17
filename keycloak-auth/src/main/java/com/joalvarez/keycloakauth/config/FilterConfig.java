@@ -1,7 +1,7 @@
 package com.joalvarez.keycloakauth.config;
 
+import com.joalvarez.keycloakauth.interceptor.TenantSchemaInterceptor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -11,22 +11,24 @@ import java.util.stream.Stream;
 @Configuration
 public class FilterConfig implements WebMvcConfigurer {
 
-	// TODO: adding your interceptors here
+	private final TenantSchemaInterceptor testInterceptor;
+
+	public FilterConfig(TenantSchemaInterceptor testInterceptor) {
+		this.testInterceptor = testInterceptor;
+	}
 
 	private static final List<String> EXCLUDE_PATH = Stream.of(
 		"/v3/api-docs/**",
 		"/swagger-ui/**",
 		"/swagger-ui.html",
 		"/swagger-resources/**",
-		"/webjars/**"
+		"/webjars/**",
+		"/users/login"
 	).toList();
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// TODO uncomment following code
-/*
-		registry.addInterceptor()
+		registry.addInterceptor(this.testInterceptor)
 			.excludePathPatterns(EXCLUDE_PATH);
-*/
 	}
 }
