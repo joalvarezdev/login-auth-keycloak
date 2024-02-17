@@ -1,10 +1,10 @@
 package com.joalvarez.keycloakauth.data.dao.generals;
 
-import com.joalvarez.keycloakauth.data.repository.generals.GenericRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public abstract class GenericDAO<REP extends GenericRepository<ENT, PK>, ENT, PK> {
+public abstract class GenericDAO<REP extends JpaRepository<ENT, PK>, ENT, PK> {
 
 	protected final REP repository;
 

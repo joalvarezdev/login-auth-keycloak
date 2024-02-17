@@ -9,18 +9,15 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.WebRequestInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter;
 
 import java.util.Objects;
 
 @Component
-public class TestInterceptor implements HandlerInterceptor, HasLogger {
+public class TenantSchemaInterceptor implements HandlerInterceptor, HasLogger {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -45,7 +42,6 @@ public class TestInterceptor implements HandlerInterceptor, HasLogger {
 		JWTClaimsSet claims = JWTParser.parse(token).getJWTClaimsSet();
 
 		TenantContext.setCurrentTenantSchema((String) claims.getClaim("family_name"));
-		this.info("INTERCEPTOR");
 
 		return true;
 	}
