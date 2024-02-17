@@ -13,10 +13,18 @@ POST {{base-url-api}}{{login-endpoint}}
 Content-Type: application/json
 
 {
-  "username": "admin",
+  "username": "user1",
   "password": "{{password}}"
 }
 
 ### FIND ALL USERS
 GET {{base-url-api}}{{users-endpoint}}
 Authorization: Bearer {{admin-token}}
+
+### FIND ALL PRODUCTS | ADMIN
+GET http://localhost:8090/products
+Authorization: Bearer {{admin-token}}
+
+### FIND ALL PRODUCTS | USER1
+GET {{base-url-api}}{{products-endpoint}}
+Authorization: Bearer {{user-token}}

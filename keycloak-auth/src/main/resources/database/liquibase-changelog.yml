@@ -1,19 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: test
-      author: test
+      id: 01-products-table
+      author: joalvarez
       runOnChange: true
       changes:
         - sqlFile:
-            path: ddl/01-test.sql
+            path: ddl/01-products.sql
             relativeToChangelogFile: true
-            endDelimiter: ;
-  - changeSet:
-      id: test
-      author: test
-      runOnChange: true
-      changes:
-        - sqlFile:
-            path: dml/01-test.sql
-            relativeToChangeLogFile: true
             endDelimiter: ;
