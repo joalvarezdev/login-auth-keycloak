@@ -76,5 +76,7 @@ api.security:
       authorities: [ADMIN]
     - path: /test/user
       authorities: [ADMIN, USER]
+    - path: /products/**
+      authorities: [ADMIN, USER]
 
 
