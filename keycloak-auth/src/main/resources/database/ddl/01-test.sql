@@ -1,3 +1,0 @@
-CREATE TABLE IF NOT EXISTS "tests" (
-    id SERIAL NOT NULL
-);
